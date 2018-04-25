@@ -1,34 +1,42 @@
-import {getRepository} from "typeorm";
+import { ICaminhoRelativo } from './../express/interfaces/ICaminhoRelativo';
+import {getRepository, getConnection} from "typeorm";
 import {NextFunction, Request, Response} from "express";
-import {Departamento} from "../entity/Departamento";
+import { Path } from "../express/decorators/Path";
+import { HttpMethod } from "../express/HttpMethod";
+import { Departamento } from '../entity/Departamento';
+import { DepartamentoBusiness } from '../business/DepartamentoBusiness';
 
 export class DepartamentoController {
 
-    private departamentoRepository = getRepository(Departamento);
+    private departamentoBusiness = new DepartamentoBusiness();
 
-    async all(request: Request, response: Response, next: NextFunction) {
-        return this.departamentoRepository.find();
+    constructor(){
     }
 
-    async one(request: Request, response: Response, next: NextFunction) {
-        return this.departamentoRepository.findOne(request.params.id);
+    getCaminhoRelativo() : string {
+        return "/departamento";
+    }
+    
+    @Path(HttpMethod.GET)
+    async listarTodos(request: Request, response: Response, next: NextFunction) {
+        const departamentos = await this.departamentoBusiness.listarTodos();
+        response.send(departamentos);
     }
 
+    @Path(HttpMethod.GET, "/:id")
+    async getById(request: Request, response: Response, next: NextFunction) {
+        response.send(await this.departamentoBusiness.getById(request.params.id));
+    }
+
+    @Path(HttpMethod.POST)
     async save(request: Request, response: Response, next: NextFunction) {
-        return this.departamentoRepository.save(request.body);
+        await this.departamentoBusiness.save(request.body);
+        response.send("cadastrado");
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-        await this.departamentoRepository.remove(request.params.id);
-    }
-
-    async update(request: Request, response: Response, next: NextFunction) {
-        return this.departamentoRepository.createQueryBuilder()
-            .update(Departamento)
-            .set(request.body)
-            .where("id = :id", {id: request.params.id})
-            .execute();
-
+        await this.departamentoBusiness.remove(request.params.id);
+        response.send("removido com sucesso");
     }
 
 }
