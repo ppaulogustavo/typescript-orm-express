@@ -2,9 +2,9 @@
    "type": "postgres",
    "host": "localhost",
    "port": 5432,
-   "username": "postgres",
-   "password": "postgres",
-   "database": "postgres",
+   "username": "qualidade",
+   "password": "qualidade",
+   "database": "qualidade",
    "synchronize": true,
    "logging": true,
    "entities": [

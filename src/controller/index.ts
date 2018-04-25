@@ -1,2 +1,2 @@
-
-export * from "./UserController"
+export * from "./UsuarioController"
+export * from "./DepartamentoController"
