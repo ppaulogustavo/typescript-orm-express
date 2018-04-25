@@ -2,10 +2,10 @@ import { ICaminhoRelativo } from './../interfaces/ICaminhoRelativo';
 import { HttpMethod } from './../HttpMethod';
 import { expressConfigs } from "../ExpressManager"
 
-export function Path(methodHttp: HttpMethod, urn: string = "") {
+export function Path(ExpressMethod: HttpMethod, urn: string = "") {
 
     return function (obj: any, propertyKey: string, descriptor: PropertyDescriptor) { 
-        expressConfigs.registrarRota({ fnName: propertyKey, obj, methodHttp, urn: getUrn(obj, urn) });
+        expressConfigs.registrarRota({ fnName: propertyKey, obj, ExpressMethod, urn: getUrn(obj, urn) });
         return obj[propertyKey];
     }
 

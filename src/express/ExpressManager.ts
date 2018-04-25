@@ -1,8 +1,10 @@
 import { IRota } from './interfaces/IRota';
 import { HttpMethod } from './HttpMethod';
 import * as express from "express"
-import { RequestHandlerParams } from "express-serve-static-core";
+import { RequestHandlerParams, Request } from "express-serve-static-core";
 import { IKeyValue } from "../interfaces/IKeyValue";
+
+export type ResquestHandler = RequestHandlerParams[] | RequestHandlerParams;
 
 class ExpressManager {
 
@@ -13,12 +15,12 @@ class ExpressManager {
     private wasCommitado: boolean = false;
     private pathRotas: any = null;
 
-    public registrarMiddlewareAntesDaRota(middleware: RequestHandlerParams[] | RequestHandlerParams) : ExpressManager {
+    public registrarMiddlewareAntesDaRota(middleware: ResquestHandler) : ExpressManager {
         this.antes = this.antes.concat(middleware);
         return this;
     }
 
-    public registrarMiddlewareAposRota(middleware: RequestHandlerParams[] | RequestHandlerParams) : ExpressManager {
+    public registrarMiddlewareDepoisDaRota(middleware: ResquestHandler) : ExpressManager {
         this.depois = this.depois.concat(middleware);
         return this;
     }
@@ -29,6 +31,10 @@ class ExpressManager {
        } else {
            this.mapInstanceRotas.set(rota.obj, [rota]);
        }
+    }
+
+    public setConfig(nome: string, valor: Object) {
+        this.express.set(nome, valor);
     }
 
     public startServer(port: number, hostname: string, callback: Function = () => {}) {
@@ -50,7 +56,7 @@ class ExpressManager {
     private commitRota(rota: IRota) : void{
         const express = <IKeyValue>this.express;
         let instance = new rota.obj.constructor();
-        express[rota.methodHttp](rota.urn, function (... args) {
+        express[rota.ExpressMethod](rota.urn, function (... args) {
             instance[rota.fnName](... args)
         });
     }

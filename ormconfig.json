@@ -6,7 +6,6 @@
    "password": "qualidade",
    "database": "qualidade",
    "synchronize": true,
-   "logging": true,
    "entities": [
       "src/entity/**/*.ts"
    ],

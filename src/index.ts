@@ -1,2 +1,3 @@
+require("dotenv").load();
 import "reflect-metadata";
-import "./express/ExpressBootstrap"
+import "./express/ExpressBootstrap";
