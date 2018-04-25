@@ -1,7 +1,4 @@
 import { getRepository, getConnection, Repository} from "typeorm";
-import { NextFunction, Request, Response } from "express";
-import { Departamento } from "../entity/Departamento";
-import { Usuario } from "../entity/Usuario";
 
 export class GenericDAO <T> {
 
