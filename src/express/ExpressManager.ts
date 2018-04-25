@@ -1,9 +1,8 @@
 import { IRota } from './interfaces/IRota';
 import { HttpMethod } from './HttpMethod';
 import * as express from "express"
-import { ApplicationRequestHandler, IRouterHandler, RequestHandlerParams } from "express-serve-static-core";
+import { RequestHandlerParams } from "express-serve-static-core";
 import { IKeyValue } from "../interfaces/IKeyValue";
-
 
 class ExpressManager {
 
@@ -11,16 +10,16 @@ class ExpressManager {
     private antes: RequestHandlerParams[] = new Array;
     private depois: RequestHandlerParams[] = new Array;
     private mapInstanceRotas: Map<Object, IRota[]> = new Map;
-    private wasRegistrado: boolean = false;
+    private wasCommitado: boolean = false;
     private pathRotas: any = null;
 
     public registrarMiddlewareAntesDaRota(middleware: RequestHandlerParams[] | RequestHandlerParams) : ExpressManager {
-        this.antes.concat(middleware);
+        this.antes = this.antes.concat(middleware);
         return this;
     }
 
     public registrarMiddlewareAposRota(middleware: RequestHandlerParams[] | RequestHandlerParams) : ExpressManager {
-        this.depois.concat(middleware);
+        this.depois = this.depois.concat(middleware);
         return this;
     }
 
@@ -44,7 +43,7 @@ class ExpressManager {
         return this;
     }
 
-    private registrarMiddlewares(middlewares: RequestHandlerParams[]) : void {
+    private commitMiddlewares(middlewares: RequestHandlerParams[]) : void {
         middlewares.forEach(middleware => this.express.use(middleware));
     }
 
@@ -63,13 +62,13 @@ class ExpressManager {
 
     public commit() : ExpressManager {
         
-        if (this.wasRegistrado) {
-            throw new Error("Express já registrou seus middlware e rotas");
+        if (this.wasCommitado) {
+            throw new Error("Express já commitou seus middlware e rotas");
         }
-        this.registrarMiddlewares(this.antes);
+        this.commitMiddlewares(this.antes);
         this.commitRotas();
-        this.registrarMiddlewares(this.depois);
-        this.wasRegistrado = true;
+        this.commitMiddlewares(this.depois);
+        this.wasCommitado = true;
         return this;
     }
 }
