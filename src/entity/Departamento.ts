@@ -13,7 +13,6 @@ export class Departamento {
     @OneToMany(type => Usuario, usuario => usuario.departamento, {
         eager: true
     })
-    
     @JoinTable()
     usuarios: Usuario[];
 

@@ -5,20 +5,18 @@ import {UsuarioDAO} from '../dao/UsuarioDAO';
 
 export class UsuarioBusiness {
 
-    private usuarioRepository = getRepository(Usuario);
     private dao = new UsuarioDAO();
 
     async listarTodos() {
-        return this.usuarioRepository.find();
+        return this.dao.getAll();
     }
 
     async getById(id: number) {
         return this.dao.getById(id);
-        //return this.usuarioRepository.findOne(request.params.id);
     }
 
     async save(usuarioDTO: any) {
-        return this.usuarioRepository.save(usuarioDTO);
+        return this.dao.insert(usuarioDTO);
     }
 
     async remove(id: number) {

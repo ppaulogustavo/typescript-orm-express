@@ -5,20 +5,18 @@ import { DepartamentoDAO } from "../dao/DepartamentoDAO";
 
 export class DepartamentoBusiness {
 
-    private departamentoRepository = getRepository(Departamento);
     private dao = new DepartamentoDAO();
 
     async listarTodos() {
-        return this.departamentoRepository.find();
+        return this.dao.getAll();
     }
 
     async getById(id: number) {
         return this.dao.getById(id);
-        //return this.departamentoRepository.findOne(request.params.id);
     }
 
     async save(departamentoDTO: any) {
-        return this.departamentoRepository.save(departamentoDTO);
+        return this.dao.insert(departamentoDTO);
     }
 
     async remove(id: number) {

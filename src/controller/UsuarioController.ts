@@ -19,8 +19,8 @@ export class UsuarioController implements ICaminhoRelativo {
     
     @Path(HttpMethod.GET)
     async listarTodos(request: Request, response: Response, next: NextFunction) {
-        const users = await this.usuarioBusiness.listarTodos();
-        response.send(users);
+        const usuarios = await this.usuarioBusiness.listarTodos();
+        response.send(usuarios);
     }
 
     @Path(HttpMethod.GET, "/:id")
@@ -33,6 +33,12 @@ export class UsuarioController implements ICaminhoRelativo {
         console.log(request.route);
         await this.usuarioBusiness.save(request.body);
         response.send("cadastrado");
+    }
+
+    @Path(HttpMethod.PUT, "/:id")
+    async update(request: Request, response: Response, next: NextFunction) {
+        await this.usuarioBusiness.update(request.params.id, request.body);
+        response.send("editado");
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {

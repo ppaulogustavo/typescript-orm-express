@@ -34,6 +34,12 @@ export class DepartamentoController {
         response.send("cadastrado");
     }
 
+    @Path(HttpMethod.PUT, "/:id")
+    async update(request: Request, response: Response, next: NextFunction) {
+        await this.departamentoBusiness.update(request.params.id, request.body);
+        response.send("editado");
+    }
+
     async remove(request: Request, response: Response, next: NextFunction) {
         await this.departamentoBusiness.remove(request.params.id);
         response.send("removido com sucesso");
