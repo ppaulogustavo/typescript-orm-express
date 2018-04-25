@@ -15,6 +15,10 @@ export class UsuarioBusiness {
         return this.dao.getById(id);
     }
 
+    async getByLogin(login: string) {
+        return this.dao.getByLogin(login);
+    }
+
     async save(usuarioDTO: any) {
         return this.dao.insert(usuarioDTO);
     }

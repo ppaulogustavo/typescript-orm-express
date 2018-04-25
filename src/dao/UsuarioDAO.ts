@@ -10,4 +10,10 @@ export class UsuarioDAO extends GenericDAO<Usuario> {
         super(Usuario);
     }
 
+    async getByLogin(login: string) {
+        return await this.repository.createQueryBuilder('e')
+            .where('e.login = :login', {login: login})
+            .getOne();
+    }
+
 }

@@ -10,7 +10,7 @@ export class Usuario {
     @Column()
     nome: string;
 
-    @Column()
+    @Column({unique: true})
     login: string;
 
     @ManyToOne(type => Departamento, departamento => departamento.usuarios)
