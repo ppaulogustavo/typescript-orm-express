@@ -4,6 +4,11 @@ import { Departamento } from "./Departamento";
 @Entity()
 export class Usuario {
 
+    constructor(login ?: string, senha ?: string) {
+        this.login = login;
+        this.senha = senha;
+    }
+
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -12,6 +17,9 @@ export class Usuario {
 
     @Column()
     login: string;
+
+    @Column()
+    senha: string;
 
     @ManyToOne(type => Departamento, departamento => departamento.usuarios)
     departamento: Departamento;

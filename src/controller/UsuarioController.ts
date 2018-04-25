@@ -1,13 +1,16 @@
+import { UsuarioDAO } from './../dao/UsuarioDAO';
 import {getRepository} from "typeorm";
 import {NextFunction, Request, Response} from "express";
 import {Usuario} from "../entity/Usuario";
-import {UsuarioDAO} from './UsuarioDAO';
+import { Path } from '../express/decorators/Path';
+import { HttpMethod } from '../express/HttpMethod';
 
 export class UsuarioController {
 
     private usuarioRepository = getRepository(Usuario);
     private dao = new UsuarioDAO();
 
+    @Path(HttpMethod.GET)
     async all(request: Request, response: Response, next: NextFunction) {
         return this.usuarioRepository.find();
     }
