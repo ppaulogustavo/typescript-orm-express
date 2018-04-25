@@ -14,12 +14,14 @@ class ExpressManager {
     private wasRegistrado: boolean = false;
     private pathRotas: any = null;
 
-    public registrarMiddlewareAntesDaRota(middleware: RequestHandlerParams[] | RequestHandlerParams) : void {
+    public registrarMiddlewareAntesDaRota(middleware: RequestHandlerParams[] | RequestHandlerParams) : ExpressManager {
         this.antes.concat(middleware);
+        return this;
     }
 
-    public registrarMiddlewareAposRota(middleware: RequestHandlerParams[] | RequestHandlerParams) :void {
+    public registrarMiddlewareAposRota(middleware: RequestHandlerParams[] | RequestHandlerParams) : ExpressManager {
         this.depois.concat(middleware);
+        return this;
     }
 
     public registrarRota(rota: IRota) {
@@ -34,11 +36,12 @@ class ExpressManager {
         this.express.listen(port, hostname);
     }
 
-    public registrarRotas(pathRotas: string) : void {
+    public registrarRotas(pathRotas: string) : ExpressManager {
         if (this.pathRotas) {
             throw new Error("O Path das rotas já foi registrado");
         }
-        this.pathRotas = pathRotas;;
+        this.pathRotas = pathRotas;
+        return this;
     }
 
     private registrarMiddlewares(middlewares: RequestHandlerParams[]) : void {
@@ -58,7 +61,8 @@ class ExpressManager {
         this.mapInstanceRotas.forEach( (rotas, objRota) => rotas.forEach(rota => this.commitRota(rota) ));
     }
 
-    public commit() : void{
+    public commit() : ExpressManager {
+        
         if (this.wasRegistrado) {
             throw new Error("Express já registrou seus middlware e rotas");
         }
@@ -66,6 +70,7 @@ class ExpressManager {
         this.commitRotas();
         this.registrarMiddlewares(this.depois);
         this.wasRegistrado = true;
+        return this;
     }
 }
 
