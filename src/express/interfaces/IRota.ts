@@ -3,6 +3,6 @@ import { HttpMethod } from './../HttpMethod';
 export interface IRota {
     fnName: string;
     obj: any;
-    methodHttp: HttpMethod;
+    ExpressMethod: HttpMethod;
     urn: string;
 }
