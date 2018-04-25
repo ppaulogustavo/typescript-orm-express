@@ -51,8 +51,8 @@ class ExpressManager {
     private commitRota(rota: IRota) : void{
         const express = <IKeyValue>this.express;
         let instance = new rota.obj.constructor();
-        express[rota.methodHttp](rota.urn, function () {
-            instance[rota.fnName](...arguments)
+        express[rota.methodHttp](rota.urn, function (... args) {
+            instance[rota.fnName](... args)
         });
     }
 

@@ -2,8 +2,6 @@ import { ICaminhoRelativo } from './../interfaces/ICaminhoRelativo';
 import { HttpMethod } from './../HttpMethod';
 import { expressConfigs } from "../ExpressManager"
 
-let last: any;
-
 export function Path(methodHttp: HttpMethod, urn: string = "") {
 
     return function (obj: any, propertyKey: string, descriptor: PropertyDescriptor) { 
